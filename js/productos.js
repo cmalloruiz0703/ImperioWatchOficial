@@ -118,7 +118,7 @@ const PRODUCTOS = [
     nombre: "Rlx Yacht Master 42 en Titanio RLX Oro Blanco con Correa Oysterflex",
     categoria: "Relojes",
     precio: 49.99,
-    estado: "disponible",
+    estado: "agotado",
     imagen: "assets/productos/RolexYachtMaster42.png",
     descripcion: "Reloj deportivo con caja en tono plateado/titanio, bisel cerámico Cerachrom negro mate con números en relieve, esfera negra y correa de goma negra Oysterflex.",
     tallas: ["Talla única"]
@@ -128,7 +128,7 @@ const PRODUCTOS = [
     nombre: "Crtr Santos de Cartier Iced Out en Diamantes Negros",
     categoria: "Relojes",
     precio: 54.99,
-    estado: "disponible",
+    estado: "agotado",
     imagen: "assets/productos/CartierPerladoNegro.png",
     descripcion: "Reloj de forma cuadrada con acabado completo en pavé de diamantes/gemas en color negro tanto en la caja, el bisel y la esfera como en el brazalete metálico.",
     tallas: ["Talla única"]
@@ -138,7 +138,7 @@ const PRODUCTOS = [
     nombre: "Crtr Santos de Cartier Negro con Esfera Negra",
     categoria: "Relojes",
     precio: 49.99,
-    estado: "disponible",
+    estado: "agotado",
     imagen: "assets/productos/CartierSantosNegro.png",
     descripcion: "Reloj automático con caja y brazalete de acero en acabado negro mate, esfera negra con números romanos, indicador de fecha a las seis y corona con cabujón.",
     tallas: ["Talla única"]
