@@ -18,7 +18,7 @@ const PRODUCTOS = [
     nombre: "Rlx GMT-Master II Batgirl",
     categoria: "Relojes",
     precio: 49.99,
-    estado: "disponible",
+    estado: "agotado",
     imagen: "assets/productos/RolexMasterIINegroAzul.png",
     descripcion: "Reloj de acero con esfera negra, bisel cerámico giratorio dividido en azul y negro, manecilla GMT azul y brazalete de acero estilo Jubilee.",
     tallas: ["Talla única"]
@@ -58,7 +58,7 @@ const PRODUCTOS = [
     nombre: "Rlx GMT-Master II Bruce Wayne",
     categoria: "Relojes",
     precio: 49.99,
-    estado: "disponible",
+    estado: "agotado",
     imagen: "assets/productos/RolexMasterIINegroGris.png",
     descripcion: "Reloj de acero con esfera negra, aguja GMT verde, bisel cerámico bicolor en negro y gris, y brazalete de acero de cinco eslabones Jubilee.",
     tallas: ["Talla única"]
@@ -281,7 +281,7 @@ const PRODUCTOS = [
     nombre: "AP Royal Oak Iced Out Diamantes Blancos",
     categoria: "Relojes",
     precio: 54.99,
-    estado: "disponible",
+    estado: "agotado",
     imagen: "assets/productos/ApPerladoBlanco.png",
     descripcion: "Reloj de tres agujas con ventana de fecha, completamente engastado en pavé de diamantes brillantes en la caja, el bisel octogonal, la esfera y el brazalete.",
     tallas: ["Talla única"]
@@ -291,7 +291,7 @@ const PRODUCTOS = [
     nombre: "AP Royal Oak Iced Out Diamantes Negros",
     categoria: "Relojes",
     precio: 54.99,
-    estado: "disponible",
+    estado: "agotado",
     imagen: "assets/productos/ApPerladoNegro.png",
     descripcion: "Reloj de tres agujas con ventana de fecha, cubierto por completo en pavé de diamantes en tono negro brillante, abarcando caja, bisel, esfera y brazalete.",
     tallas: ["Talla única"]
