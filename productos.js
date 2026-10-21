@@ -28,7 +28,7 @@ const PRODUCTOS = [
     nombre: "Rlx GMT-Master II Oro",
     categoria: "Relojes",
     precio: 49.99,
-    estado: "disponible",
+    estado: "agotado",
     imagen: "assets/productos/RolexOro.png",
     descripcion: "Reloj con caja y brazalete de tres eslabones oyster fabricados en oro.",
     tallas: ["Talla única"]
@@ -118,7 +118,7 @@ const PRODUCTOS = [
     nombre: "Rlx Yacht Master 42 en Titanio RLX Oro Blanco con Correa Oysterflex",
     categoria: "Relojes",
     precio: 49.99,
-    estado: "agotado",
+    estado: "disponible",
     imagen: "assets/productos/RolexYachtMaster42.png",
     descripcion: "Reloj deportivo con caja en tono plateado/titanio, bisel cerámico Cerachrom negro mate con números en relieve, esfera negra y correa de goma negra Oysterflex.",
     tallas: ["Talla única"]
@@ -231,7 +231,7 @@ const PRODUCTOS = [
     nombre: "RM 11-03 Flyback Cerámica Blanca con Correa Amarilla",
     categoria: "Relojes",
     precio: 54.99,
-    estado: "disponible",
+    estado: "agotado",
     imagen: "assets/productos/RichardBlancoAmarillo.png",
     descripcion: "Reloj cronógrafo con caja tonneau en cerámica blanca, esfera esqueleto con detalles amarillos, indicador de fecha grande, pulsadores blancos y correa de goma amarilla.",
     tallas: ["Talla única"]
