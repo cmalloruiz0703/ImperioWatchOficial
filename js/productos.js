@@ -18,7 +18,7 @@ const PRODUCTOS = [
     nombre: "Rlx GMT-Master II Batgirl",
     categoria: "Relojes",
     precio: 49.99,
-    estado: "disponible",
+    estado: "agotado",
     imagen: "assets/productos/RolexMasterIINegroAzul.png",
     descripcion: "Reloj de acero con esfera negra, bisel cerámico giratorio dividido en azul y negro, manecilla GMT azul y brazalete de acero estilo Jubilee.",
     tallas: ["Talla única"]
@@ -28,7 +28,7 @@ const PRODUCTOS = [
     nombre: "Rlx GMT-Master II Oro",
     categoria: "Relojes",
     precio: 49.99,
-    estado: "disponible",
+    estado: "agotado",
     imagen: "assets/productos/RolexOro.png",
     descripcion: "Reloj con caja y brazalete de tres eslabones oyster fabricados en oro.",
     tallas: ["Talla única"]
@@ -58,7 +58,7 @@ const PRODUCTOS = [
     nombre: "Rlx GMT-Master II Bruce Wayne",
     categoria: "Relojes",
     precio: 49.99,
-    estado: "disponible",
+    estado: "agotado",
     imagen: "assets/productos/RolexMasterIINegroGris.png",
     descripcion: "Reloj de acero con esfera negra, aguja GMT verde, bisel cerámico bicolor en negro y gris, y brazalete de acero de cinco eslabones Jubilee.",
     tallas: ["Talla única"]
@@ -118,7 +118,7 @@ const PRODUCTOS = [
     nombre: "Rlx Yacht Master 42 en Titanio RLX Oro Blanco con Correa Oysterflex",
     categoria: "Relojes",
     precio: 49.99,
-    estado: "agotado",
+    estado: "disponible",
     imagen: "assets/productos/RolexYachtMaster42.png",
     descripcion: "Reloj deportivo con caja en tono plateado/titanio, bisel cerámico Cerachrom negro mate con números en relieve, esfera negra y correa de goma negra Oysterflex.",
     tallas: ["Talla única"]
@@ -281,7 +281,7 @@ const PRODUCTOS = [
     nombre: "AP Royal Oak Iced Out Diamantes Blancos",
     categoria: "Relojes",
     precio: 54.99,
-    estado: "disponible",
+    estado: "agotado",
     imagen: "assets/productos/ApPerladoBlanco.png",
     descripcion: "Reloj de tres agujas con ventana de fecha, completamente engastado en pavé de diamantes brillantes en la caja, el bisel octogonal, la esfera y el brazalete.",
     tallas: ["Talla única"]
@@ -291,7 +291,7 @@ const PRODUCTOS = [
     nombre: "AP Royal Oak Iced Out Diamantes Negros",
     categoria: "Relojes",
     precio: 54.99,
-    estado: "disponible",
+    estado: "agotado",
     imagen: "assets/productos/ApPerladoNegro.png",
     descripcion: "Reloj de tres agujas con ventana de fecha, cubierto por completo en pavé de diamantes en tono negro brillante, abarcando caja, bisel, esfera y brazalete.",
     tallas: ["Talla única"]
@@ -314,6 +314,16 @@ const PRODUCTOS = [
     estado: "disponible",
     imagen: "assets/productos/lvplata.jpeg",
     descripcion: "Conjunto compuesto por cinturón en lona Monogram con hebilla en acabado plateado, y billetera a juego. Incluye bolsa de compra y caja original de la marca.",
+    tallas: ["110 cm"]
+  },
+  {
+    id: "pack-lv-gris",
+    nombre: "Pack cinturon y cartera LV Gris",
+    categoria: "Cinturones",
+    precio: 44.99,
+    estado: "disponible",
+    imagen: "assets/productos/lv-gris.jpeg",
+    descripcion: "Conjunto compuesto por cinturón en lona Monogram con hebilla en acabado negro, y billetera a juego. Incluye bolsa de compra y caja original de la marca.",
     tallas: ["110 cm"]
   },
   {
