@@ -98,7 +98,7 @@ const PRODUCTOS = [
     nombre: "Rlx Yacht Master Oro Amarillo con Correa Oysterflex",
     categoria: "Relojes",
     precio: 49.99,
-    estado: "disponible",
+    estado: "agotado",
     imagen: "assets/productos/RolexDoradoCierreGoma.png",
     descripcion: "Reloj deportivo con caja en oro amarillo, bisel cerámico negro mate con números en relieve, esfera negra con texto en rojo y correa de goma negra Oysterflex.",
     tallas: ["Talla única"]
@@ -231,7 +231,7 @@ const PRODUCTOS = [
     nombre: "RM 11-03 Flyback Cerámica Blanca con Correa Amarilla",
     categoria: "Relojes",
     precio: 54.99,
-    estado: "disponible",
+    estado: "agotado",
     imagen: "assets/productos/RichardBlancoAmarillo.png",
     descripcion: "Reloj cronógrafo con caja tonneau en cerámica blanca, esfera esqueleto con detalles amarillos, indicador de fecha grande, pulsadores blancos y correa de goma amarilla.",
     tallas: ["Talla única"]
