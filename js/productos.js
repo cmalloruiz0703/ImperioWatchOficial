@@ -118,9 +118,59 @@ const PRODUCTOS = [
     nombre: "Rlx Yacht Master 42 en Titanio RLX Oro Blanco con Correa Oysterflex",
     categoria: "Relojes",
     precio: 49.99,
-    estado: "disponible",
+    estado: "agotado",
     imagen: "assets/productos/RolexYachtMaster42.png",
     descripcion: "Reloj deportivo con caja en tono plateado/titanio, bisel cerámico Cerachrom negro mate con números en relieve, esfera negra y correa de goma negra Oysterflex.",
+    tallas: ["Talla única"]
+  },
+  {
+    id: "rolex-daytona-platino",
+    nombre: "Rolex Cosmograph Daytona Platino",
+    categoria: "Relojes",
+    precio: 119.99,
+    estado: "agotado",
+    imagen: "assets/productos/daytona_platino_azul_hielo.jpeg",
+    descripcion: "Reloj cronógrafo Rolex Cosmograph Daytona en platino, con esfera azul hielo, contadores con bordes marrones, bisel cerámico Cerachrom marrón y brazalete Oyster.",
+    tallas: ["Talla única"]
+  },
+  {
+    id: "rolex-daydate-platino-arabe",
+    nombre: "Rolex Day-Date Esfera Azul Hielo Árabe",
+    categoria: "Relojes",
+    precio: 119.99,
+    estado: "agotado",
+    imagen: "assets/productos/daydate_platino_arabe.jpeg",
+    descripcion: "Reloj Rolex Day-Date con esfera azul hielo, números arábigos, bisel estriado y brazalete President, presentado con su set completo de caja y documentación.",
+    tallas: ["Talla única"]
+  },
+  {
+    id: "rolex-daydate-ororosa-romano",
+    nombre: "Rolex Day-Date Oro Rosa",
+    categoria: "Relojes",
+    precio: 119.99,
+    estado: "agotado",
+    imagen: "assets/productos/daydate_ororosa.jpeg",
+    descripcion: "Reloj Rolex Day-Date fabricado en oro rosa Everose, marcadores de números romanos, bisel estriado y brazalete President.",
+    tallas: ["Talla única"]
+  },
+  {
+    id: "rolex-daytona-ororosa-oysterflex",
+    nombre: "Rolex Cosmograph Daytona Oro Rosa Oysterflex",
+    categoria: "Relojes",
+    precio: 119.99,
+    estado: "agotado",
+    imagen: "assets/productos/daytona_ororosa_oysterflex.jpeg",
+    descripcion: "Reloj cronógrafo Rolex Cosmograph Daytona en oro rosa Everose, con esfera chocolate, bisel cerámico negro Cerachrom y correa deportiva Oysterflex de caucho negro.",
+    tallas: ["Talla única"]
+  },
+  {
+    id: "rolex-daydate-ororosa-chocolate",
+    nombre: "Rolex Day-Date Oro Rosa Esfera Marrón Oscuro",
+    categoria: "Relojes",
+    precio: 119.99,
+    estado: "agotado",
+    imagen: "assets/productos/daydate_ororosa_chocolate.jpeg",
+    descripcion: "Reloj Rolex Day-Date en oro rosa Everose, destacando por su esfera marrón oscura color chocolate con acabado rayos de sol, bisel estriado clásico y el elegante brazalete President.",
     tallas: ["Talla única"]
   },
   {
@@ -168,7 +218,7 @@ const PRODUCTOS = [
     nombre: "Om x Sw Bioceramic MoonSwatch Mission to the Moonphase (Snoopy White)",
     categoria: "Relojes",
     precio: 49.99,
-    estado: "disponible",
+    estado: "agotado",
     imagen: "assets/productos/OmegaBlanco.png",
     imagen: "assets/productos/OmegaBlanco.png",
     imagen: "assets/productos/OmegaBlanco.png",
@@ -301,7 +351,7 @@ const PRODUCTOS = [
     nombre: "Pack cinturon y cartera LV Dorado",
     categoria: "Cinturones",
     precio: 44.99,
-    estado: "disponible",
+    estado: "agotado",
     imagen: "assets/productos/lvdorado.jpeg",
     descripcion: "Conjunto compuesto por cinturón con hebilla en acabado dorado, y billetera a juego. Incluye bolsa de compra y caja original de la marca.",
     tallas: ["110 cm"]
@@ -311,7 +361,7 @@ const PRODUCTOS = [
     nombre: "Pack cinturon y cartera LV Plata",
     categoria: "Cinturones",
     precio: 44.99,
-    estado: "disponible",
+    estado: "agotado",
     imagen: "assets/productos/lvplata.jpeg",
     descripcion: "Conjunto compuesto por cinturón en lona Monogram con hebilla en acabado plateado, y billetera a juego. Incluye bolsa de compra y caja original de la marca.",
     tallas: ["110 cm"]
@@ -321,7 +371,7 @@ const PRODUCTOS = [
     nombre: "Pack cinturon y cartera LV Gris",
     categoria: "Cinturones",
     precio: 44.99,
-    estado: "disponible",
+    estado: "agotado",
     imagen: "assets/productos/lv-gris.jpeg",
     descripcion: "Conjunto compuesto por cinturón en lona Monogram con hebilla en acabado negro, y billetera a juego. Incluye bolsa de compra y caja original de la marca.",
     tallas: ["110 cm"]
