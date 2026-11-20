@@ -7,13 +7,14 @@ const vm = require('vm');
 
 const raiz = path.join(__dirname, '..');
 const leer = (f) => fs.readFileSync(path.join(raiz, f), 'utf8')
-  .replace(/\bconst (PRODUCTOS|ESTADOS|ASESOR_TAGS)\b/g, 'var $1');
+  .replace(/\bconst (PRODUCTOS|ESTADOS|DROPS|ASESOR_TAGS)\b/g, 'var $1');
 
 const ctx = vm.createContext({ console: { warn(){}, log(){} } });
 vm.runInContext(leer('js/productos.js'), ctx);
 vm.runInContext(leer('js/asesor-datos.js'), ctx);
 const PRODUCTOS = vm.runInContext('PRODUCTOS', ctx);
 const TAGS = vm.runInContext('ASESOR_TAGS', ctx);
+const puedeComprarse = vm.runInContext('puedeComprarse', ctx);
 
 const ids = new Set(PRODUCTOS.map(p => p.id));
 const sinTags = PRODUCTOS.filter(p => !TAGS[p.id]).map(p => p.id);
@@ -28,7 +29,8 @@ const salida = {
     nombre: p.nombre,
     categoria: p.categoria,
     precio: p.precio,
-    estado: p.estado || 'disponible',
+    estado: puedeComprarse(p) ? 'disponible' : 'agotado',
+    drop: p.drop,
     imagen: p.imagen,
     descripcion: p.descripcion,
     tags: TAGS[p.id] || {}

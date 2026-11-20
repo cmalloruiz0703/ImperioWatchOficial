@@ -94,14 +94,25 @@ function formatPrecio(n) {
   );
 }
 
-function cardTemplate(p) {
-  const agotado = estaAgotado(p);
+const ETIQUETA_ESTADO = {
+  agotado: "Agotado",
+  cerrado: "Cerrado",
+  proximo: "Próximamente",
+};
+
+function cardTemplate(p, mostrarDrop) {
+  const estado = estadoDe(p);
+  const bloqueado = estado !== "disponible";
+  const drop = getDrop(p.drop);
+  const etiqueta = bloqueado
+    ? (mostrarDrop && drop ? drop.nombre + " · " : "") + ETIQUETA_ESTADO[estado]
+    : "";
   return `
-    <div class="card${agotado ? " agotado" : ""}" data-tilt>
-      <a class="thumb-link" href="producto.html?id=${p.id}" aria-label="${p.nombre}${agotado ? " (agotado)" : ""}">
+    <div class="card${bloqueado ? " agotado" : ""}" data-tilt>
+      <a class="thumb-link" href="producto.html?id=${p.id}" aria-label="${p.nombre}${bloqueado ? " (" + ETIQUETA_ESTADO[estado].toLowerCase() + ")" : ""}">
         <div class="thumb">
           <img src="${p.imagen}" alt="${p.nombre}" loading="lazy">
-          ${agotado ? '<span class="estado-badge">Agotado</span>' : ""}
+          ${bloqueado ? '<span class="estado-badge">' + etiqueta + "</span>" : ""}
         </div>
       </a>
       <div class="info">
@@ -117,14 +128,21 @@ function cardTemplate(p) {
 function renderDestacados() {
   const grid = document.getElementById("grid-destacados");
   if (!grid) return;
-  const categorias = getCategorias();
-  const destacados = categorias
-    .map((cat) => PRODUCTOS.find((p) => p.categoria === cat))
+  const visibles = PRODUCTOS.filter((p) => estadoDe(p) !== "proximo");
+  const activos = visibles.filter(
+    (p) => estadoDrop(getDrop(p.drop)) === "activo",
+  );
+  const base = activos.length ? activos : visibles;
+  const destacados = [...new Set(base.map((p) => p.categoria))]
+    .map((cat) => base.find((p) => p.categoria === cat))
     .filter(Boolean);
-  PRODUCTOS.forEach((p) => {
+  base.forEach((p) => {
     if (destacados.length < 4 && !destacados.includes(p)) destacados.push(p);
   });
-  grid.innerHTML = destacados.slice(0, 4).map(cardTemplate).join("");
+  grid.innerHTML = destacados
+    .slice(0, 4)
+    .map((p) => cardTemplate(p))
+    .join("");
   initTiltAll();
 }
 
@@ -136,13 +154,14 @@ function renderCatalogo() {
   const filtros = document.getElementById("filtros");
   if (!grid) return;
 
+  const tabs = document.getElementById("drop-tabs");
+  const banner = document.getElementById("drop-banner");
   const buscar = document.getElementById("buscar");
   const orden = document.getElementById("orden");
   const soloDisp = document.getElementById("solo-disp");
   const resultados = document.getElementById("resultados");
   const categorias = getCategorias();
 
-  // sin acentos y en minúsculas: "reloj" encuentra "Reloj", "cadena" encuentra "Cadena"
   const norm = (t) =>
     String(t || "")
       .normalize("NFD")
@@ -161,6 +180,7 @@ function renderCatalogo() {
 
   const qs = new URLSearchParams(window.location.search);
   const estado = {
+    vista: qs.get("vista") === "archivo" ? "archivo" : "actual",
     cat: categorias.includes(qs.get("cat")) ? qs.get("cat") : "todos",
     q: qs.get("q") || "",
     orden: ["precio-asc", "precio-desc"].includes(qs.get("orden"))
@@ -169,27 +189,36 @@ function renderCatalogo() {
     disp: qs.get("disp") === "1",
   };
 
+  const enVista = (p) =>
+    estadoDrop(getDrop(p.drop)) ===
+    (estado.vista === "archivo" ? "archivado" : "activo");
+
   function filtrar() {
     const tokens = norm(estado.q).split(/\s+/).filter(Boolean);
+    const soloDisponibles = estado.disp && estado.vista === "actual";
     let lista = PRODUCTOS.filter(
       (p) =>
+        enVista(p) &&
         (estado.cat === "todos" || p.categoria === estado.cat) &&
-        (!estado.disp || !estaAgotado(p)) &&
+        (!soloDisponibles || puedeComprarse(p)) &&
         tokens.every((t) => indice.get(p.id).includes(t)),
     );
     if (estado.orden === "precio-asc")
       lista = lista.slice().sort((a, b) => a.precio - b.precio);
     if (estado.orden === "precio-desc")
       lista = lista.slice().sort((a, b) => b.precio - a.precio);
+    if (estado.vista === "archivo" && estado.orden === "relevancia")
+      lista = lista.slice().sort((a, b) => (b.drop || 0) - (a.drop || 0));
     return lista;
   }
 
   function guardarEnUrl() {
     const p = new URLSearchParams();
+    if (estado.vista === "archivo") p.set("vista", "archivo");
     if (estado.cat !== "todos") p.set("cat", estado.cat);
     if (estado.q.trim()) p.set("q", estado.q.trim());
     if (estado.orden !== "relevancia") p.set("orden", estado.orden);
-    if (estado.disp) p.set("disp", "1");
+    if (estado.disp && estado.vista === "actual") p.set("disp", "1");
     const str = p.toString();
     try {
       history.replaceState(
@@ -205,7 +234,17 @@ function renderCatalogo() {
     if (orden) orden.value = estado.orden;
     if (soloDisp) {
       soloDisp.setAttribute("aria-pressed", String(estado.disp));
+      soloDisp.hidden = estado.vista === "archivo";
     }
+    if (tabs)
+      tabs
+        .querySelectorAll("button")
+        .forEach((b) =>
+          b.setAttribute(
+            "aria-pressed",
+            String(b.dataset.vista === estado.vista),
+          ),
+        );
     if (filtros)
       filtros
         .querySelectorAll("button")
@@ -214,24 +253,81 @@ function renderCatalogo() {
         );
   }
 
-  // animar=false al teclear u ordenar: que las tarjetas no parpadeen en cada pulsación
-  function pintar(animar) {
-    const lista = filtrar();
-    grid.classList.toggle("sin-anim", !animar);
-    if (lista.length) {
-      grid.innerHTML = lista.map(cardTemplate).join("");
-    } else {
-      grid.innerHTML =
-        '<div class="vacio"><p>No hemos encontrado piezas con esos filtros.</p>' +
-        '<button type="button" class="btn outline" id="limpiar-filtros">Quitar filtros</button></div>';
-      grid.querySelector("#limpiar-filtros").addEventListener("click", () => {
-        estado.cat = "todos";
-        estado.q = "";
-        estado.orden = "relevancia";
-        estado.disp = false;
+  function pintarFiltros() {
+    if (!filtros) return;
+    const cats = [
+      ...new Set(PRODUCTOS.filter(enVista).map((p) => p.categoria)),
+    ];
+    if (estado.cat !== "todos" && !cats.includes(estado.cat))
+      estado.cat = "todos";
+    filtros.innerHTML =
+      '<button data-cat="todos">Todos</button>' +
+      cats
+        .map((c) => '<button data-cat="' + c + '">' + c + "</button>")
+        .join("");
+    filtros.querySelectorAll("button").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        estado.cat = btn.dataset.cat;
         sincronizarControles();
         pintar(true);
       });
+    });
+  }
+
+  function pintarBanner() {
+    if (!banner) return;
+    const lista =
+      estado.vista === "archivo"
+        ? DROPS.filter((d) => estadoDrop(d) === "archivado").sort((a, b) => b.id - a.id)
+        : DROPS.filter((d) => estadoDrop(d) !== "archivado");
+    banner.innerHTML = lista.map((d) => franjaDrop(d)).join("");
+    pintarCuentas();
+  }
+
+  function cambiarVista(v) {
+    if (v === estado.vista) return;
+    estado.vista = v;
+    pintarFiltros();
+    sincronizarControles();
+    pintarBanner();
+    pintar(true);
+  }
+
+  function pintar(animar) {
+    const lista = filtrar();
+    const enArchivo = estado.vista === "archivo";
+    grid.classList.toggle("sin-anim", !animar);
+    if (lista.length) {
+      grid.innerHTML = lista.map((p) => cardTemplate(p, enArchivo)).join("");
+    } else {
+      const vistaVacia = !PRODUCTOS.some(enVista);
+      if (vistaVacia && !enArchivo) {
+        const hayAbierto = DROPS.some((d) => estadoDrop(d) === "activo");
+        grid.innerHTML =
+          '<div class="vacio"><p>' +
+          (hayAbierto
+            ? "El drop actual todavía no tiene piezas."
+            : "Ahora mismo no hay ningún drop abierto.") +
+          '</p><button type="button" class="btn outline" id="ir-archivo">Ver el archivo</button></div>';
+        grid
+          .querySelector("#ir-archivo")
+          .addEventListener("click", () => cambiarVista("archivo"));
+      } else if (vistaVacia && enArchivo) {
+        grid.innerHTML =
+          '<div class="vacio"><p>Todavía no hay drops cerrados.</p></div>';
+      } else {
+        grid.innerHTML =
+          '<div class="vacio"><p>No hemos encontrado piezas con esos filtros.</p>' +
+          '<button type="button" class="btn outline" id="limpiar-filtros">Quitar filtros</button></div>';
+        grid.querySelector("#limpiar-filtros").addEventListener("click", () => {
+          estado.cat = "todos";
+          estado.q = "";
+          estado.orden = "relevancia";
+          estado.disp = false;
+          sincronizarControles();
+          pintar(true);
+        });
+      }
     }
     if (resultados)
       resultados.textContent =
@@ -240,19 +336,15 @@ function renderCatalogo() {
     initTiltAll();
   }
 
-  if (filtros) {
-    let html = '<button data-cat="todos">Todos</button>';
-    categorias.forEach((cat) => {
-      html += '<button data-cat="' + cat + '">' + cat + "</button>";
-    });
-    filtros.innerHTML = html;
-    filtros.querySelectorAll("button").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        estado.cat = btn.dataset.cat;
-        sincronizarControles();
-        pintar(true);
-      });
-    });
+  if (tabs) {
+    tabs.innerHTML =
+      '<button type="button" data-vista="actual">Drop actual</button>' +
+      '<button type="button" data-vista="archivo">Archivo</button>';
+    tabs
+      .querySelectorAll("button")
+      .forEach((b) =>
+        b.addEventListener("click", () => cambiarVista(b.dataset.vista)),
+      );
   }
 
   if (buscar) {
@@ -264,7 +356,6 @@ function renderCatalogo() {
         pintar(false);
       }, 120);
     });
-    // "Buscar" en el teclado móvil: cierra el teclado para ver los resultados
     buscar.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
         e.preventDefault();
@@ -284,7 +375,9 @@ function renderCatalogo() {
       pintar(false);
     });
 
+  pintarFiltros();
   sincronizarControles();
+  pintarBanner();
   pintar(true);
 }
 
@@ -298,15 +391,18 @@ function renderProducto() {
   const p = getProducto(id) || PRODUCTOS[0];
 
   document.title = p.nombre + " — IMPERIOWATCH";
-  const agotado = estaAgotado(p);
+  const estadoP = estadoDe(p);
+  const comprable = estadoP === "disponible";
+  const aviso = comprable ? null : avisoNoDisponible(p);
+  const drop = getDrop(p.drop);
 
   cont.innerHTML = `
     <div class="gallery-main" data-tilt><img src="${p.imagen}" alt="${p.nombre}"></div>
     <div class="details">
       <a class="crumb" href="catalogo.html">Catálogo</a>
-      <span class="cat">${p.categoria}</span>
+      <span class="cat">${p.categoria}${drop ? " · " + drop.nombre : ""}</span>
       <h1>${p.nombre}</h1>
-      <div class="price">${formatPrecio(p.precio)}${agotado ? ' <span class="estado-badge inline">Agotado</span>' : ""}</div>
+      <div class="price">${formatPrecio(p.precio)}${comprable ? "" : ' <span class="estado-badge inline">' + ETIQUETA_ESTADO[estadoP] + "</span>"}</div>
       <p class="desc">${p.descripcion}</p>
       <div class="opt-row">
         <label>Opción</label>
@@ -315,17 +411,18 @@ function renderProducto() {
         </div>
       </div>
       <div class="purchase-box">
-        ${
-          agotado
-            ? `
-          <div class="purchase-note agotado"><span class="purchase-dot"></span> Este producto está agotado por ahora</div>
-          <button class="btn instagram-btn" type="button" disabled aria-disabled="true">Agotado</button>
+                ${
+                  !comprable
+                    ? `
+          <div class="purchase-note agotado"><span class="purchase-dot"></span> ${aviso.texto}</div>
+          <button class="btn instagram-btn" type="button" disabled aria-disabled="true">${ETIQUETA_ESTADO[estadoP]}</button>
         `
-            : `
+                    : `
           <div class="purchase-note"><span class="purchase-dot"></span> Pedido gestionado por Instagram · Pago contra reembolso</div>
+          ${drop && drop.cierre ? `<div class="purchase-note"><span class="purchase-dot"></span> Disponible hasta ${cuando(momentoDrop(drop.cierre))}</div>` : ""}
           <a class="btn instagram-btn" id="btn-instagram-pedido" href="#">Comprar por Instagram <span>↗</span></a>
         `
-        }
+                }
         <div class="btn-row">
           <button class="btn outline" type="button" id="btn-compartir" aria-live="polite"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 12.5V3M6.5 6.5L10 3l3.5 3.5M4.5 10v6h11v-6"/></svg>Compartir</button>
           <a class="btn outline" href="catalogo.html">← Catálogo</a>
@@ -428,9 +525,12 @@ function renderProducto() {
       "@type": "Offer",
       priceCurrency: "EUR",
       price: p.precio,
-      availability: agotado
-        ? "https://schema.org/OutOfStock"
-        : "https://schema.org/InStock",
+      availability: {
+        disponible: "https://schema.org/InStock",
+        proximo: "https://schema.org/PreSale",
+        agotado: "https://schema.org/OutOfStock",
+        cerrado: "https://schema.org/Discontinued",
+      }[estadoP],
     },
   });
   document.head.appendChild(ld);
@@ -541,10 +641,236 @@ function initReveal() {
   targets.forEach((t) => io.observe(t));
 }
 
+// ---------- DROPS: tarjetas, cuenta atrás, ticker y calendario ----------
+const UNIDADES_CUENTA = [["d", "días"], ["h", "horas"], ["m", "min"], ["s", "seg"]];
+
+function bloqueCuenta(ms) {
+  return (
+    '<div class="cuenta" data-cuenta="' + ms + '" role="timer">' +
+    UNIDADES_CUENTA.map(
+      ([k, l]) => '<div class="cuenta-box"><b data-u="' + k + '">00</b><span>' + l + "</span></div>",
+    ).join("") +
+    "</div>"
+  );
+}
+
+function barraPiezas(d) {
+  const { total, quedan } = piezasDrop(d);
+  if (!total) return "";
+  const txt = quedan === 0 ? "Drop agotado" : "Quedan " + quedan + " de " + total + " piezas";
+  return (
+    '<div class="piezas"><div class="piezas-txt"><strong>' + txt + "</strong></div>" +
+    '<div class="piezas-barra"><i style="width:' + Math.round((quedan / total) * 100) + '%"></i></div></div>'
+  );
+}
+
+function ctaPildora(href, texto) {
+  return (
+    '<a class="cta-pill" href="' + href + '"><span>' + texto + "</span>" +
+    '<i class="cta-icon" aria-hidden="true">↗</i></a>'
+  );
+}
+
+function tarjetaDrop(d, grande) {
+  const e = estadoDrop(d);
+  const ap = momentoDrop(d.apertura);
+  const ci = momentoDrop(d.cierre);
+  let etiqueta, cuenta = "", linea = "", extra = "", clase = "drop-card";
+  if (e === "activo") {
+    etiqueta = '<span class="drop-dot"></span>' + d.nombre + " · ABIERTO";
+    if (ci !== null) {
+      cuenta = bloqueCuenta(ci);
+      linea = "Cierra " + cuando(ci);
+    }
+    extra = ctaPildora("catalogo.html", "Ver piezas del " + d.nombre);
+    clase += " es-activo";
+  } else if (e === "proximo") {
+    etiqueta = d.nombre + " · " + fechaLarga(ap).toUpperCase() + " · " + horaMadrid(ap);
+    cuenta = bloqueCuenta(ap);
+    linea = "Sale " + cuando(ap);
+    extra = '<button type="button" class="btn-ghost" data-cal="' + d.id + '">Añadir a mi calendario</button>';
+    clase += " es-proximo";
+  } else {
+    const { total } = piezasDrop(d);
+    etiqueta = d.nombre + " · HISTÓRICO";
+    linea =
+      total + " piezas traídas" +
+      (ci !== null ? " · cerrado el " + fechaLarga(ci) + " a las " + horaMadrid(ci) : "");
+    extra = ctaPildora("catalogo.html?vista=archivo", "Ver el archivo");
+    clase += " es-archivo";
+  }
+  if (grande) clase += " grande";
+  const aviso =
+    grande && e !== "archivado"
+      ? '<div class="aviso-tag"><i>!</i>AVISO IMPORTANTE</div>'
+      : "";
+  if (aviso) clase += " es-aviso";
+  return (
+    '<div class="drop-shell ' + (e === "archivado" ? "archivo" : e) + '">' +
+    '<article class="' + clase + '">' + aviso +
+    '<div class="drop-eyebrow">' + etiqueta + "</div>" +
+    cuenta + (linea ? '<p class="drop-linea">' + linea + "</p>" : "") +
+    (e === "archivado" ? "" : barraPiezas(d)) + extra +
+    "</article></div>"
+  );
+}
+
+function franjaDrop(d) {
+  const e = estadoDrop(d);
+  const ap = momentoDrop(d.apertura);
+  const ci = momentoDrop(d.cierre);
+  const { total, quedan } = piezasDrop(d);
+  const piezas = total ? '<span class="franja-piezas">' + quedan + "/" + total + " piezas</span>" : "";
+  const cuenta = (ms, verbo) =>
+    "<span>" + verbo + ' <b data-cuenta-txt="' + ms + '">--</b></span>';
+  let punto = '<span class="drop-dot"></span>', texto;
+  if (e === "activo") {
+    texto = "<strong>" + d.nombre + " abierto</strong>" + (ci !== null ? cuenta(ci, "cierra en") : "");
+  } else if (e === "proximo") {
+    punto = '<span class="franja-punto"></span>';
+    texto = "<strong>" + d.nombre + "</strong>" + cuenta(ap, "sale en");
+  } else {
+    punto = '<span class="franja-punto"></span>';
+    texto =
+      "<strong>" + d.nombre + "</strong><span>cerrado el " +
+      (ci !== null ? fechaLarga(ci) : "") + "</span>";
+  }
+  return '<div class="drop-franja">' + punto + texto + (e === "archivado" ? "" : piezas) + "</div>";
+}
+
+function dropPrincipal() {
+  return (
+    DROPS.find((d) => estadoDrop(d) === "activo" && d.cierre) ||
+    DROPS.find((d) => estadoDrop(d) === "proximo")
+  );
+}
+
+function renderDropHero() {
+  const cont = document.getElementById("drop-modulo");
+  if (!cont) return;
+  const vivos = DROPS.filter((d) => estadoDrop(d) !== "archivado");
+  const archivados = DROPS
+    .filter((d) => estadoDrop(d) === "archivado")
+    .sort((a, b) => b.id - a.id);
+  const html = vivos.length
+    ? vivos.map((d, i) => tarjetaDrop(d, i === 0)).join("")
+    : '<article class="drop-card es-archivo grande"><div class="drop-eyebrow">SIN DROP ABIERTO</div>' +
+      '<p class="drop-linea">El próximo lanzamiento se anuncia en Instagram.</p></article>';
+  cont.innerHTML = html + archivados.map((d) => tarjetaDrop(d, false)).join("");
+  pintarCuentas();
+}
+
+function fmtCuenta(ms) {
+  const o = desglose(ms);
+  const p = (n) => String(n).padStart(2, "0");
+  return (o.d ? o.d + "D " : "") + p(o.h) + ":" + p(o.m) + ":" + p(o.s);
+}
+
+function pintarCuentas() {
+  const t = ahora();
+  document.querySelectorAll("[data-cuenta]").forEach((el) => {
+    const o = desglose(Number(el.dataset.cuenta) - t);
+    UNIDADES_CUENTA.forEach(([k]) => {
+      const b = el.querySelector('[data-u="' + k + '"]');
+      if (b) b.textContent = String(o[k]).padStart(2, "0");
+    });
+  });
+  document.querySelectorAll("[data-cuenta-txt]").forEach((el) => {
+    el.textContent = fmtCuenta(Number(el.dataset.cuentaTxt) - t);
+  });
+  const d = dropPrincipal();
+  if (!d) return;
+  const activo = estadoDrop(d) === "activo";
+  const objetivo = momentoDrop(activo ? d.cierre : d.apertura);
+  const txt = d.nombre.toUpperCase() + (activo ? " CIERRA EN " : " SALE EN ") + fmtCuenta(objetivo - t);
+  document.querySelectorAll(".ticker-drop").forEach((el) => (el.textContent = txt));
+}
+
+// El primer elemento del ticker es la cuenta atrás del drop (en cada mitad del bucle)
+function initTickerDrop() {
+  if (!dropPrincipal()) return;
+  document.querySelectorAll(".ticker-track").forEach((track) => {
+    const hijos = [...track.children];
+    const mk = () => {
+      const f = document.createDocumentFragment();
+      const s = document.createElement("span");
+      s.className = "ticker-drop";
+      const sep = document.createElement("span");
+      sep.className = "sep";
+      sep.textContent = "◆";
+      f.append(s, sep);
+      return f;
+    };
+    track.insertBefore(mk(), hijos[hijos.length / 2]);
+    track.insertBefore(mk(), track.firstChild);
+  });
+}
+
+function descargarCalendario(d) {
+  const ini = momentoDrop(d.apertura);
+  if (ini === null) return;
+  const f = (ms) => new Date(ms).toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
+  const txt = [
+    "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//IMPERIOWATCH//Drops//ES",
+    "BEGIN:VEVENT", "UID:drop-" + d.id + "@imperiowatch",
+    "DTSTAMP:" + f(ahora()), "DTSTART:" + f(ini), "DTEND:" + f(ini + 3600000),
+    "SUMMARY:" + d.nombre + " · IMPERIOWATCH",
+    "DESCRIPTION:Sale el " + d.nombre + " de IMPERIOWATCH. Pedidos por Instagram.",
+    "BEGIN:VALARM", "TRIGGER:-PT15M", "ACTION:DISPLAY",
+    "DESCRIPTION:" + d.nombre + " sale en 15 minutos", "END:VALARM",
+    "END:VEVENT", "END:VCALENDAR",
+  ].join("\r\n");
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([txt], { type: "text/calendar;charset=utf-8" }));
+  a.download = "imperiowatch-drop-" + d.id + ".ics";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+}
+
+document.addEventListener("click", (e) => {
+  const b = e.target.closest("[data-cal]");
+  if (b) descargarCalendario(getDrop(Number(b.dataset.cal)));
+});
+
+// Recarga la página cuando un drop abre o cierra mientras está abierta
+function vigilarDrops() {
+  if (document.getElementById("pedido-form")) return; // no se pierde un formulario a medias
+  const firma = () => DROPS.map((d) => estadoDrop(d)).join();
+  const inicial = firma();
+  const comprobar = () => {
+    if (firma() !== inicial) location.reload();
+  };
+  const armar = () => {
+    const t = ahora();
+    const futuros = DROPS.flatMap((d) => [momentoDrop(d.apertura), momentoDrop(d.cierre)]).filter(
+      (m) => m !== null && m > t,
+    );
+    if (!futuros.length) return;
+    const falta = Math.min(...futuros) - t;
+    if (falta > 2147483647) return;
+    setTimeout(() => {
+      comprobar();
+      armar();
+    }, falta + 1000);
+  };
+  armar();
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) sincronizarReloj().then(comprobar);
+  });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
-  renderCatalogo();
-  renderProducto();
-  renderDestacados();
-  initReveal();
-  initTiltAll();
+  relojListo.then(() => {
+    renderCatalogo();
+    renderProducto();
+    renderDestacados();
+    renderDropHero();
+    initTickerDrop();
+    pintarCuentas();
+    setInterval(pintarCuentas, 1000);
+    initReveal();
+    initTiltAll();
+    vigilarDrops();
+  });
 });

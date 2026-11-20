@@ -47,6 +47,7 @@ const ASESOR_TAGS = {
   // ---- Packs cinturón y cartera ----
   "pack-lv-dorado":                  { tipo:"pack", marca:"LV",   estilo:["elegante","llamativo"],               color:["dorado"] },
   "pack-lv-plata":                   { tipo:"pack", marca:"LV",   estilo:["elegante"],                           color:["plateado"] },
+  "pack-lv-gris":                    { tipo:"pack", marca:"LV",   estilo:["elegante","discreto"],                color:["negro"] },
   "pack-hermes-dorado":              { tipo:"pack", marca:"Hrms", estilo:["elegante","llamativo"],               color:["dorado"] },
   "pack-hermes-plata":               { tipo:"pack", marca:"Hrms", estilo:["elegante"],                           color:["plateado"] },
   "pack-gucci-negro":                { tipo:"pack", marca:"GC",   estilo:["elegante","discreto"],                color:["negro"] },

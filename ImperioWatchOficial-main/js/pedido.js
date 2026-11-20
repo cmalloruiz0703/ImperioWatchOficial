@@ -18,21 +18,34 @@
     <div><span class="cat">${producto.categoria}</span><h2>${producto.nombre}</h2><p>${opcion}</p><strong>${formatPrecio(producto.precio)}</strong></div>
   `;
 
-  // Si el producto está agotado (por ejemplo, entrando con un enlace antiguo),
-  // no se permite continuar con el pedido.
-  if (estaAgotado(producto)) {
+  // Bloquea también los formularios que sigan abiertos cuando cierre el drop.
+  let avisoNoDisponibleEl = null;
+  function bloquearPedidoSiNoDisponible() {
+    if (puedeComprarse(producto)) return false;
     form.hidden = true;
-    const aviso = document.createElement("div");
-    aviso.className = "order-agotado";
-    aviso.setAttribute("role", "status");
-    aviso.innerHTML = `
-      <h2>Este producto está agotado</h2>
-      <p>Ahora mismo no podemos aceptar pedidos de <strong>${producto.nombre}</strong>. Mira el resto del catálogo o escríbenos por Instagram para saber cuándo volverá.</p>
-      <a class="btn instagram-btn" href="catalogo.html">Ver catálogo</a>
-    `;
-    form.parentNode.insertBefore(aviso, form);
-    return;
+    const info = avisoNoDisponible(producto);
+    if (!avisoNoDisponibleEl) {
+      avisoNoDisponibleEl = document.createElement("div");
+      avisoNoDisponibleEl.className = "order-agotado";
+      avisoNoDisponibleEl.setAttribute("role", "status");
+      form.parentNode.insertBefore(avisoNoDisponibleEl, form);
+    }
+    avisoNoDisponibleEl.innerHTML = `
+      <h2>${info.titulo}</h2>
+      <p><strong>${producto.nombre}</strong>. ${info.texto}</p>
+      <a class="btn instagram-btn" href="catalogo.html">Ver catálogo</a>`;
+    return true;
   }
+
+  if (bloquearPedidoSiNoDisponible()) return;
+
+  const vigilarDisponibilidad = window.setInterval(() => {
+    if (bloquearPedidoSiNoDisponible()) window.clearInterval(vigilarDisponibilidad);
+  }, 1000);
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden && bloquearPedidoSiNoDisponible())
+      window.clearInterval(vigilarDisponibilidad);
+  });
 
   let mensaje = "";
 
@@ -65,6 +78,10 @@
     e.preventDefault();
     const error = document.getElementById("form-error");
     error.textContent = "";
+    if (bloquearPedidoSiNoDisponible()) {
+      window.clearInterval(vigilarDisponibilidad);
+      return;
+    }
     if (!form.checkValidity()) {
       error.textContent = "Revisa los campos obligatorios antes de continuar.";
       form.reportValidity();

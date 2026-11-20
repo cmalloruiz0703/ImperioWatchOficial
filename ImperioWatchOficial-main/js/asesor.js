@@ -46,7 +46,7 @@
   else iniciar();
 
   // ---------- datos ----------
-  const agotado = (p) => p.estado === 'agotado';
+  const agotado = (p) => !puedeComprarse(p);
   const tagsDe = (p) => (typeof ASESOR_TAGS !== 'undefined' && ASESOR_TAGS[p.id]) || {};
   const porId = (id) => PRODUCTOS.find(p => p.id === id);
   const precioTxt = (n) => Number(n).toFixed(2).replace('.', ',') + ' €';
