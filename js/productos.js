@@ -592,7 +592,7 @@ const PRODUCTOS = [
     nombre: "Rlx Daytona Panda Acero",
     categoria: "Relojes",
     precio: 49.99,
-    estado: "disponible",
+    estado: "agotado",
     drop: 2,
     imagen: "assets/productos/panda-Photoroom.png",
     descripcion:
@@ -616,7 +616,7 @@ const PRODUCTOS = [
     nombre: "Rlx Submariner Acero y Oro con Esfera Negra",
     categoria: "Relojes",
     precio: 49.99,
-    estado: "disponible",
+    estado: "agotado",
     drop: 2,
     imagen: "assets/productos/rlxdoradonegro-Photoroom.png",
     descripcion:
@@ -628,7 +628,7 @@ const PRODUCTOS = [
     nombre: "Rlx Sky-Dweller Esfera Verde con Bisel Estriado",
     categoria: "Relojes",
     precio: 49.99,
-    estado: "disponible",
+    estado: "agotado",
     drop: 2,
     imagen: "assets/productos/rlxverde-Photoroom.png",
     descripcion:
@@ -664,7 +664,7 @@ const PRODUCTOS = [
     nombre: "RM 35-02 Rafael Nadal Carbono NTPT con Correa Azul",
     categoria: "Relojes",
     precio: 59.99,
-    estado: "disponible",
+    estado: "agotado",
     drop: 2,
     imagen: "assets/productos/RichardGomaAzul.png",
     descripcion:
@@ -700,7 +700,7 @@ const PRODUCTOS = [
     nombre: "RM Cerámica Blanca Esqueletizado con Correa Azul",
     categoria: "Relojes",
     precio: 59.99,
-    estado: "disponible",
+    estado: "agotado",
     drop: 2,
     imagen: "assets/productos/rmcorreazulesferablanca.png",
     descripcion:
@@ -712,7 +712,7 @@ const PRODUCTOS = [
     nombre: "RM Cerámica Blanca Esqueletizado con Correa Blanca",
     categoria: "Relojes",
     precio: 59.99,
-    estado: "disponible",
+    estado: "agotado",
     drop: 2,
     imagen: "assets/productos/rmblanco-Photoroom.png",
     descripcion:
@@ -724,7 +724,7 @@ const PRODUCTOS = [
     nombre: "RM 11-03 Flyback Cerámica Blanca con Correa Blanca",
     categoria: "Relojes",
     precio: 59.99,
-    estado: "disponible",
+    estado: "agotado",
     drop: 2,
     imagen: "assets/productos/rmblanconumeros-Photoroom.png",
     descripcion:
@@ -736,7 +736,7 @@ const PRODUCTOS = [
     nombre: "RM Flyback Ice Out con Correa Negra",
     categoria: "Relojes",
     precio: 59.99,
-    estado: "disponible",
+    estado: "agotado",
     drop: 2,
     imagen: "assets/productos/rmiceout-Photoroom.png",
     descripcion:
@@ -748,7 +748,7 @@ const PRODUCTOS = [
     nombre: "RM Cerámica Negra Esqueletizado con Correa Negra",
     categoria: "Relojes",
     precio: 59.99,
-    estado: "disponible",
+    estado: "agotado",
     drop: 2,
     imagen: "assets/productos/rmnegro-Photoroom.png",
     descripcion:
@@ -761,7 +761,7 @@ const PRODUCTOS = [
       "Rlx Daytona Platino Esfera Azul Hielo Números Árabes (Automático con Packaging)",
     categoria: "Relojes",
     precio: 119.99,
-    estado: "disponible",
+    estado: "agotado",
     drop: 2,
     imagen: "assets/productos/arabeautomatico.jpeg",
     descripcion:
@@ -773,7 +773,7 @@ const PRODUCTOS = [
     nombre: "Rlx Daytona Platino Esfera Azul Hielo (Automático con Packaging)",
     categoria: "Relojes",
     precio: 119.99,
-    estado: "disponible",
+    estado: "agotado",
     drop: 2,
     imagen: "assets/productos/daytona_platino_azul_hielo.jpeg",
     descripcion:
@@ -785,7 +785,7 @@ const PRODUCTOS = [
     nombre: "Rlx GMT-Master II Root Beer (Automático con Packaging)",
     categoria: "Relojes",
     precio: 119.99,
-    estado: "disponible",
+    estado: "agotado",
     drop: 2,
     imagen: "assets/productos/gmtmasterautomatico.jpeg",
     descripcion:
@@ -798,7 +798,7 @@ const PRODUCTOS = [
       "Rlx Day-Date Esfera Azul con Bisel Estriado (Automático con Packaging)",
     categoria: "Relojes",
     precio: 119.99,
-    estado: "disponible",
+    estado: "agotado",
     drop: 2,
     imagen: "assets/productos/rlxazulautomatico.jpeg",
     descripcion:
@@ -810,7 +810,7 @@ const PRODUCTOS = [
     nombre: "Rlx GMT-Master II Zombie Bicolor (Automático con Packaging)",
     categoria: "Relojes",
     precio: 119.99,
-    estado: "disponible",
+    estado: "agotado",
     drop: 2,
     imagen: "assets/productos/zombieautomatico.jpeg",
     descripcion:
