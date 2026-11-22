@@ -270,9 +270,6 @@ const PRODUCTOS = [
     estado: "agotado",
     drop: 1,
     imagen: "assets/productos/OmegaBlanco.png",
-    imagen: "assets/productos/OmegaBlanco.png",
-    imagen: "assets/productos/OmegaBlanco.png",
-    imagen: "assets/productos/OmegaBlanco.png",
     descripcion:
       "Reloj cronógrafo totalmente blanco fabricado en biocerámica, con correa de velcro blanca y subesfera superior derecha decorada con la ilustración del personaje Snoopy durmiendo sobre la luna.",
     tallas: ["Talla única"],
@@ -506,15 +503,15 @@ const PRODUCTOS = [
     tallas: ["110 cm"],
   },
   {
-    id: "d2-ap-dorado",
-    nombre: "AP Royal Oak Cronógrafo Oro Amarillo",
+    id: "ap-oro-rosa",
+    nombre: "AP Royal Oak Cronógrafo Oro Rosa",
     categoria: "Relojes",
     precio: 49.99,
-    estado: "disponible",
+    estado: "agotado",
     drop: 2,
-    imagen: "assets/productos/ApDorado.png",
+    imagen: "assets/productos/ApOroRosa.png",
     descripcion:
-      "Reloj cronógrafo con caja y brazalete integrado en oro amarillo, bisel octogonal con tornillos expuestos y esfera Grande Tapisserie en tono dorado con subesferas a juego.",
+      "Reloj cronógrafo con caja y brazalete en oro rosa, bisel octogonal característico y esfera Grande Tapisserie en tono marrón rosa con subesferas a juego.",
     tallas: ["Talla única"],
   },
   {
@@ -530,6 +527,18 @@ const PRODUCTOS = [
     tallas: ["Talla única"],
   },
   {
+    id: "d2-reloj-time-is-money",
+    nombre: "Reloj Time Is Money con Correa Negra",
+    categoria: "Relojes",
+    precio: 49.99,
+    estado: "disponible",
+    drop: 2,
+    imagen: "assets/productos/timeismoney-Photoroom.png",
+    descripcion:
+      "Reloj de caja cuadrada en acero con esfera blanca, numeración romana, mensaje Time Is Money en rojo y correa de goma negra.",
+    tallas: ["Talla única"],
+  },
+  {
     id: "d2-omega-snoopy",
     nombre:
       "Om x Sw Bioceramic MoonSwatch Mission to the Moonphase (Snoopy White)",
@@ -540,30 +549,6 @@ const PRODUCTOS = [
     imagen: "assets/productos/OmegaBlanco.png",
     descripcion:
       "Reloj cronógrafo totalmente blanco fabricado en biocerámica, con correa de velcro blanca y subesfera superior derecha decorada con la ilustración del personaje Snoopy durmiendo sobre la luna.",
-    tallas: ["Talla única"],
-  },
-  {
-    id: "d2-rm-nadal-azul",
-    nombre: "RM 35-02 Rafael Nadal Carbono NTPT con Correa Azul",
-    categoria: "Relojes",
-    precio: 59.99,
-    estado: "disponible",
-    drop: 2,
-    imagen: "assets/productos/RichardGomaAzul.png",
-    descripcion:
-      "Reloj deportivo con caja de carbono negro y detalles azules, mecanismo esqueletizado visible y correa de goma azul.",
-    tallas: ["Talla única"],
-  },
-  {
-    id: "d2-rm-nadal-blanco",
-    nombre: "RM 35-02 Rafael Nadal Cerámica Blanca con Correa Blanca",
-    categoria: "Relojes",
-    precio: 59.99,
-    estado: "disponible",
-    drop: 2,
-    imagen: "assets/productos/RichardGomaBlanca.png",
-    descripcion:
-      "Reloj deportivo con caja de cerámica blanca, bisel interior azul claro, mecanismo totalmente esqueletizado visible y correa de goma blanca.",
     tallas: ["Talla única"],
   },
   {
@@ -651,6 +636,54 @@ const PRODUCTOS = [
     tallas: ["Talla única"],
   },
   {
+    id: "d2-rolex-submariner-azul",
+    nombre: "Rlx Submariner Acero con Bisel Azul",
+    categoria: "Relojes",
+    precio: 49.99,
+    estado: "disponible",
+    drop: 2,
+    imagen: "assets/productos/submarine-Photoroom.png",
+    descripcion:
+      "Reloj de buceo de acero con esfera negra, bisel cerámico azul y brazalete de acero estilo Oyster.",
+    tallas: ["Talla única"],
+  },
+  {
+    id: "d2-rolex-yacht-master-42",
+    nombre: "Rlx Yacht-Master 42 Acero con Correa de Goma Negra",
+    categoria: "Relojes",
+    precio: 49.99,
+    estado: "disponible",
+    drop: 2,
+    imagen: "assets/productos/yatch42-Photoroom.png",
+    descripcion:
+      "Reloj de acero con esfera negra, bisel cerámico negro giratorio y correa de goma negra.",
+    tallas: ["Talla única"],
+  },
+  {
+    id: "d2-rm-nadal-azul",
+    nombre: "RM 35-02 Rafael Nadal Carbono NTPT con Correa Azul",
+    categoria: "Relojes",
+    precio: 59.99,
+    estado: "disponible",
+    drop: 2,
+    imagen: "assets/productos/RichardGomaAzul.png",
+    descripcion:
+      "Reloj deportivo con caja de carbono negro y detalles azules, mecanismo esqueletizado visible y correa de goma azul.",
+    tallas: ["Talla única"],
+  },
+  {
+    id: "d2-rm-nadal-blanco",
+    nombre: "RM 35-02 Rafael Nadal Cerámica Blanca con Correa Blanca",
+    categoria: "Relojes",
+    precio: 59.99,
+    estado: "disponible",
+    drop: 2,
+    imagen: "assets/productos/RichardGomaBlanca.png",
+    descripcion:
+      "Reloj deportivo con caja de cerámica blanca, bisel interior azul claro, mecanismo totalmente esqueletizado visible y correa de goma blanca.",
+    tallas: ["Talla única"],
+  },
+  {
     id: "d2-rm-azul-celeste",
     nombre: "RM Cerámica Azul Celeste Esqueletizado con Correa Azul",
     categoria: "Relojes",
@@ -660,6 +693,18 @@ const PRODUCTOS = [
     imagen: "assets/productos/rmazulcielo-Photoroom.png",
     descripcion:
       "Reloj deportivo con caja azul celeste, mecanismo esqueletizado visible y correa de goma azul a juego.",
+    tallas: ["Talla única"],
+  },
+  {
+    id: "d2-rm-azul-celeste-blanco",
+    nombre: "RM Cerámica Blanca Esqueletizado con Correa Azul",
+    categoria: "Relojes",
+    precio: 59.99,
+    estado: "disponible",
+    drop: 2,
+    imagen: "assets/productos/rmcorreazulesferablanca.png",
+    descripcion:
+      "Reloj deportivo con caja blanca, mecanismo esqueletizado visible y correa de goma azul.",
     tallas: ["Talla única"],
   },
   {
@@ -708,42 +753,6 @@ const PRODUCTOS = [
     imagen: "assets/productos/rmnegro-Photoroom.png",
     descripcion:
       "Reloj deportivo con caja negra, mecanismo esqueletizado visible y correa de goma negra.",
-    tallas: ["Talla única"],
-  },
-  {
-    id: "d2-rolex-submariner-azul",
-    nombre: "Rlx Submariner Acero con Bisel Azul",
-    categoria: "Relojes",
-    precio: 49.99,
-    estado: "disponible",
-    drop: 2,
-    imagen: "assets/productos/submarine-Photoroom.png",
-    descripcion:
-      "Reloj de buceo de acero con esfera negra, bisel cerámico azul y brazalete de acero estilo Oyster.",
-    tallas: ["Talla única"],
-  },
-  {
-    id: "d2-crtr-santos-time-is-money",
-    nombre: "Crtr Time Is Money con Correa Negra",
-    categoria: "Relojes",
-    precio: 49.99,
-    estado: "disponible",
-    drop: 2,
-    imagen: "assets/productos/timeismoney-Photoroom.png",
-    descripcion:
-      "Reloj de caja cuadrada en acero con esfera blanca, numeración romana, mensaje Time Is Money en rojo y correa de goma negra.",
-    tallas: ["Talla única"],
-  },
-  {
-    id: "d2-rolex-yacht-master-42",
-    nombre: "Rlx Yacht-Master 42 Acero con Correa de Goma Negra",
-    categoria: "Relojes",
-    precio: 49.99,
-    estado: "disponible",
-    drop: 2,
-    imagen: "assets/productos/yatch42-Photoroom.png",
-    descripcion:
-      "Reloj de acero con esfera negra, bisel cerámico negro giratorio y correa de goma negra.",
     tallas: ["Talla única"],
   },
   {
