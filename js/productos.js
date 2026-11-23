@@ -530,7 +530,7 @@ const PRODUCTOS = [
     id: "d2-reloj-time-is-money",
     nombre: "Reloj Time Is Money con Correa Negra",
     categoria: "Relojes",
-    precio: 49.99,
+    precio: 34.99,
     estado: "disponible",
     drop: 2,
     imagen: "assets/productos/timeismoney-Photoroom.png",
@@ -556,7 +556,7 @@ const PRODUCTOS = [
     nombre: "Rlx GMT-Master II Bruce Wayne",
     categoria: "Relojes",
     precio: 49.99,
-    estado: "disponible",
+    estado: "agotado",
     drop: 2,
     imagen: "assets/productos/RolexMasterIINegroGris.png",
     descripcion:
@@ -676,7 +676,7 @@ const PRODUCTOS = [
     nombre: "RM 35-02 Rafael Nadal Cerámica Blanca con Correa Blanca",
     categoria: "Relojes",
     precio: 59.99,
-    estado: "disponible",
+    estado: "agotado",
     drop: 2,
     imagen: "assets/productos/RichardGomaBlanca.png",
     descripcion:
@@ -700,7 +700,7 @@ const PRODUCTOS = [
     nombre: "RM Cerámica Blanca Esqueletizado con Correa Azul",
     categoria: "Relojes",
     precio: 59.99,
-    estado: "agotado",
+    estado: "disponible",
     drop: 2,
     imagen: "assets/productos/rmcorreazulesferablanca.png",
     descripcion:
