@@ -1,5 +1,5 @@
 {
- "generado": "2026-11-22T21:46:51.204Z",
+ "generado": "2026-11-23T10:56:32.414Z",
  "productos": [
   {
    "id": "rolex-batgirl",
@@ -839,7 +839,7 @@
    "id": "d2-reloj-time-is-money",
    "nombre": "Reloj Time Is Money con Correa Negra",
    "categoria": "Relojes",
-   "precio": 49.99,
+   "precio": 34.99,
    "estado": "disponible",
    "drop": 2,
    "imagen": "assets/productos/timeismoney-Photoroom.png",
@@ -862,7 +862,7 @@
    "nombre": "Rlx GMT-Master II Bruce Wayne",
    "categoria": "Relojes",
    "precio": 49.99,
-   "estado": "disponible",
+   "estado": "agotado",
    "drop": 2,
    "imagen": "assets/productos/RolexMasterIINegroGris.png",
    "descripcion": "Reloj de acero con esfera negra, aguja GMT verde, bisel cerámico bicolor en negro y gris, y brazalete de acero de cinco eslabones Jubilee.",
@@ -972,7 +972,7 @@
    "nombre": "RM 35-02 Rafael Nadal Cerámica Blanca con Correa Blanca",
    "categoria": "Relojes",
    "precio": 59.99,
-   "estado": "disponible",
+   "estado": "agotado",
    "drop": 2,
    "imagen": "assets/productos/RichardGomaBlanca.png",
    "descripcion": "Reloj deportivo con caja de cerámica blanca, bisel interior azul claro, mecanismo totalmente esqueletizado visible y correa de goma blanca.",
@@ -994,7 +994,7 @@
    "nombre": "RM Cerámica Blanca Esqueletizado con Correa Azul",
    "categoria": "Relojes",
    "precio": 59.99,
-   "estado": "agotado",
+   "estado": "disponible",
    "drop": 2,
    "imagen": "assets/productos/rmcorreazulesferablanca.png",
    "descripcion": "Reloj deportivo con caja blanca, mecanismo esqueletizado visible y correa de goma azul.",
